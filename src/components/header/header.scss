@@ -1,0 +1,86 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 15px;
+
+  .side-bar-trigger {
+    padding: 0;
+    box-shadow: none;
+    border: none;
+    width: auto;
+    height: auto;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+
+    .deloitte-logo {
+      padding: 0 15px;
+      color: aliceblue;
+    }
+
+    .ant-skeleton-button {
+      margin: 0 15px;
+    }
+
+    > h1 {
+      font-size: 13px;
+      line-height: 18px;
+      font-weight: 700;
+      margin: 0;
+      color: white;
+    }
+
+    .email-btn {
+      background-color: #86bc28;
+      border: none;
+      border-radius: 3px;
+    }
+
+    //.ant-btn-primary {
+    //
+    //
+    //  .anticon {
+    //    font-size: 15px;
+    //  }
+    //
+    //  span {
+    //    font-size: 12px;
+    //  }
+    //}
+
+    .ant-input-search {
+      .ant-input-wrapper {
+        background: #000000;
+
+        .ant-input {
+          background: #000000;
+          color: white;
+          border: 0;
+          border-bottom: 1px solid #adadad;
+          box-shadow: none;
+        }
+
+        .ant-input-group-addon {
+          background: black;
+          padding: 0 5px;
+
+          .ant-input-search-button {
+            background: black;
+            border: 0;
+
+            svg {
+              height: 22px;
+              width: 22px;
+              fill: #adadad;
+            }
+
+          }
+        }
+      }
+    }
+  }
+}
