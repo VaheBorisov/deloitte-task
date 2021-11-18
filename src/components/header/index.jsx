@@ -8,7 +8,7 @@ import './header.scss';
 
 const {Search} = Input;
 
-const Header = ({ collapsed, onCollapse, onSearch, loading, url, title }) => {
+const Header = ({ collapsed, onCollapse, onSearch, loading, url, title, openEmailModal }) => {
 
     const iconsProps = () => ({
         fontSize: '22px',
@@ -31,7 +31,7 @@ const Header = ({ collapsed, onCollapse, onSearch, loading, url, title }) => {
           </div>
           <div>
             <Search onSearch={onSearch} />
-            <Button className="email-btn" icon={<MailOutlined />} type="primary">EMAIL 0</Button>
+            <Button onClick={openEmailModal} className="email-btn" icon={<MailOutlined />} type="primary">EMAIL 0</Button>
           </div>
         </div>
       </Layout.Header>

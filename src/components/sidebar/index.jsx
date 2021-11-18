@@ -1,10 +1,10 @@
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Spin } from 'antd';
 
 import './sidebar.scss';
 
 const { Sider } = Layout;
 
-const Sidebar = ({ collapsed, onCollapse, categories, onSelect, entry }) => {
+const Sidebar = ({ collapsed, onCollapse, categories, onSelect, entry, loading }) => {
     
     return (
       <Sider
@@ -16,14 +16,17 @@ const Sidebar = ({ collapsed, onCollapse, categories, onSelect, entry }) => {
         onCollapse={onCollapse}
         trigger={null}
       >
-        <Menu
-          theme="dark"
-          mode="inline"
-          onSelect={onSelect}
-          selectedKeys={entry}
-        >
-          {categories.map(({ name }) => <Menu.Item key={name}>{name}</Menu.Item>)}
-        </Menu>
+        <Spin spinning={loading}>
+          <Menu
+            theme="dark"
+            mode="inline"
+            onSelect={onSelect}
+            selectedKeys={entry}
+          >
+            {categories.map(({ name }) => <Menu.Item key={name}>{name}</Menu.Item>)}
+          </Menu>
+        </Spin>
+
       </Sider>
     );
 };

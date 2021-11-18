@@ -3,11 +3,13 @@ import {useEffect, useState} from 'react';
 
 import { Layout } from 'antd';
 
-import style from './app.scss';
+import './app.scss';
 
 // components
 import Header from '../header';
 import Sidebar from '../sidebar';
+import CategoriesContent from '../categories-content';
+import ContactInformationModal from '../contact-information-modal';
 
 // actions
 import { DeloitteActions } from '../../store/actions';
@@ -19,10 +21,19 @@ const App = () => {
     const { categories: { list: categories, logo: url, title, isLoading, entry } } = useSelector(state => state.deloitte);
 
     const [collapsed, setCollapsed] = useState();
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         dispatch(DeloitteActions.getAppCategories());
     }, [dispatch]);
+
+    const openEmailModal = () => {
+      setModalVisible(true);
+    };
+
+    const onCancel = () => {
+      setModalVisible(false);
+    };
 
     const onCollapse = () => {
         setCollapsed(collapsed => !collapsed);
@@ -38,28 +49,12 @@ const App = () => {
 
     return (
       <Layout>
-        <Header collapsed={collapsed} onCollapse={onCollapse} onSearch={onSearch} url={url} title={title} loading={isLoading} />
+        <Header collapsed={collapsed} onCollapse={onCollapse} onSearch={onSearch} url={url} title={title} loading={isLoading} openEmailModal={openEmailModal} />
         <Layout>
-          <Sidebar
-            collapsed={collapsed}
-            onCollapse={onCollapse}
-            categories={categories}
-            onSelect={onSelect}
-            entry={entry}
-            // handleMenuClick={handleMenuClick}
-            // curKey={curKey}
-            // category={category}
-          />
+          <Sidebar collapsed={collapsed} onCollapse={onCollapse} categories={categories} onSelect={onSelect} entry={entry} loading={isLoading} />
           <Content>
-            {/*<Content*/}
-            {/*  curKey={curKey}*/}
-            {/*  valFromSearch={valFromSearch}*/}
-            {/*  setCurKeyFromSearch={setCurKeyFromSearch}*/}
-            {/*/>*/}
-            {/*<EmailModal*/}
-            {/*  isModalVisible={isModalVisible}*/}
-            {/*  setIsModalVisible={setIsModalVisible}*/}
-            {/*/>*/}
+            <CategoriesContent />
+            <ContactInformationModal visible={modalVisible} onCancel={onCancel} />
           </Content>
         </Layout>
       </Layout>
