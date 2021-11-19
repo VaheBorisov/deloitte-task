@@ -24,20 +24,90 @@ const getAppCategories = () => async (dispatch) => {
       dispatch(setCompLogo(header_logo));
       dispatch(setAppTitle(title));
       dispatch(setCategories(cats));
-      dispatch(onSelectCategory(cats[0].name));
+      dispatch(setEntryCategory(cats[0].name));
 
   } catch (e) {
-      notification.error(e.message);
+      notification.error({ message: e.message });
   } finally {
       dispatch(loadingCategories(false));
   }
 };
 
+const getCategoriesContent = () => async (dispatch) => {
+    try {
+        dispatch(loadingCategoriesContent(true));
+        const response = await fetch('https://app.highattendance.com/app-contents/jVV3Q?appId=2731&eventId=2570');
+        const { contents } = await response.json();
+
+        dispatch(setContent(contents));
+        dispatch(getContentImgs());
+        dispatch(getEntryContent());
+
+    } catch (e) {
+        notification.error({ message: e.message });
+    } finally {
+        dispatch(loadingCategoriesContent(false));
+    }
+};
+
+const getEntryContent = () => async (dispatch, getState) => {
+  try {
+      dispatch(loadingEntryCategoryContent(true));
+      const { deloitte: { categories: { entry, content: { list } } } } = getState();
+
+      const entryContent = list.find(({ catName }) => catName === entry);
+
+      dispatch(setEntryContent(entryContent));
+
+  } catch (e) {
+    notification.error({ message: e.message });
+  } finally {
+      dispatch(loadingEntryCategoryContent(false));
+  }
+};
+
+const getContentImgs = () => async (dispatch) => {
+    try {
+        dispatch(loadingImgs(true));
+        const response = await fetch('https://app.highattendance.com/content-thumbnail-url/2731');
+        const imgs = await response.json();
+
+        dispatch(setImgs(imgs));
+
+    } catch (e) {
+        notification.error({ message: e.message });
+    } finally {
+        dispatch(loadingImgs(false));
+    }
+};
+
+const setImgs = (imgs) => {
+    return {
+        type: ActionTypes.SET_IMGS,
+        payload: [ ...imgs ]
+    };
+};
+
+const setEntryContent = (content) => {
+  return {
+      type: ActionTypes.SET_ENTRY_CATEGORY_CONTENT,
+      payload: { ...content }
+  };
+};
+
+const setContent = (content) => {
+    return {
+        type: ActionTypes.SET_CATEGORIES_CONTENT,
+        payload: [ ...content ]
+    };
+};
+
 const onSelectCategory = (key) => async (dispatch) => {
     try {
         dispatch(setEntryCategory(key));
+        dispatch(getEntryContent());
     } catch (e) {
-        notification.error(e.message);
+        notification.error({ message: e.message });
     }
 };
 
@@ -69,6 +139,27 @@ const setCompLogo = (URL) => {
   };
 };
 
+const loadingImgs = (boolean) => {
+    return {
+        type: ActionTypes.IMGS_LOADING,
+        payload: boolean
+    };
+};
+
+const loadingEntryCategoryContent = (boolean) => {
+  return {
+      type: ActionTypes.ENTRY_CATEGORY_CONTENT_LOADING,
+      payload: boolean
+  };
+};
+
+const loadingCategoriesContent = ( boolean ) => {
+    return {
+        type: ActionTypes.CATEGORIES_CONTENT_LOADING,
+        payload: boolean
+    };
+};
+
 const loadingCategories = (boolean) => {
   return {
       type: ActionTypes.CATEGORIES_LOADING,
@@ -78,5 +169,7 @@ const loadingCategories = (boolean) => {
 
 export const DeloitteActions = {
   getAppCategories,
-  onSelectCategory
+  onSelectCategory,
+  getCategoriesContent,
+  getEntryContent,
 };

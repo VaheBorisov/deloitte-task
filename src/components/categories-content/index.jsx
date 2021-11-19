@@ -1,8 +1,55 @@
+import {useDispatch, useSelector} from 'react-redux';
+import {useEffect} from 'react';
+
+import {Button, Row, Col, Skeleton} from 'antd';
+
+import './categories-content.scss';
+
+// actions
+import {DeloitteActions} from '../../store/actions';
+
+const CategoriesContent = ({  }) => {
+    const dispatch = useDispatch();
+    const { categories: { entryContent: { content, isLoading: loadingEntryContent }, content: { isLoading: loadingContent }, imgs: { list: imgs, isLoading: loadingImgs } } } = useSelector(state => state.deloitte);
+    
+    useEffect(() => {
+        dispatch(DeloitteActions.getCategoriesContent());
+    }, [dispatch]);
 
 
-
-const CategoriesContent = () => {
-    return <h1>contet</h1>;
+    return (
+      <div className="content">
+        {
+              loadingEntryContent || loadingContent
+                ? <Skeleton active />
+                  : (
+                    <>
+                      <h2 className="contentTitle">{content.catName}</h2>
+                      <h4 className="contentDesc">{content.description}</h4>
+                      <Row gutter={[24, 8]}>
+                        {
+                                  content?.contentInf?.map((elem, index) => {
+                                      return (
+                                        <Col key={index} className="gutterRow" span={6}>
+                                          {
+                                             loadingImgs
+                                                 ? <Skeleton.Image active style={{width: '100%', height: '100%'}} />
+                                                     : <img src={imgs.find(img => img.id === elem.id).url} alt="thumb" />
+                                          }
+                                          <div>
+                                            <span>{elem.name}</span>
+                                            <Button type="primary">Add</Button>
+                                          </div>
+                                        </Col>
+                                      );
+                                  })
+                              }
+                      </Row>
+                    </>
+                  )
+          }
+      </div>
+    );
 };
 
 export default CategoriesContent;

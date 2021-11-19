@@ -6,6 +6,18 @@ const initialState = {
         logo: null,
         title: null,
         entry: null,
+        content: {
+            list: [],
+            isLoading: false
+        },
+        entryContent: {
+            content: {},
+            isLoading: false
+        },
+        imgs: {
+          list: [],
+          isLoading: false
+        },
         isLoading: false
     }
 };
@@ -50,6 +62,72 @@ const DeloitteReducer = (state = initialState, { type, payload }) => {
                 categories: {
                     ...state.categories,
                     entry: payload
+                }
+            };
+        case ActionTypes.CATEGORIES_CONTENT_LOADING:
+            return {
+                ...state,
+                categories: {
+                    ...state.categories,
+                    content: {
+                        ...state.categories.content,
+                        isLoading: payload
+                    }
+                }
+            };
+        case ActionTypes.SET_CATEGORIES_CONTENT:
+            return {
+                ...state,
+                categories: {
+                    ...state.categories,
+                    content: {
+                        ...state.categories.content,
+                        list: [ ...payload ]
+                    }
+                }
+            };
+        case ActionTypes.ENTRY_CATEGORY_CONTENT_LOADING:
+            return {
+              ...state,
+              categories: {
+                  ...state.categories,
+                  entryContent: {
+                      ...state.categories.entryContent,
+                      isLoading: payload
+                  }
+              }
+            };
+        case ActionTypes.SET_ENTRY_CATEGORY_CONTENT:
+            return {
+                ...state,
+                categories: {
+                    ...state.categories,
+                    entryContent: {
+                        ...state.categories.entryContent,
+                        content: { ...payload }
+                    }
+                }
+            };
+        case ActionTypes.IMGS_LOADING:
+            return {
+                ...state,
+                categories: {
+                    ...state.categories,
+                    imgs: {
+                        ...state.categories.imgs,
+                        isLoading: payload
+                    }
+                }
+            };
+        case ActionTypes.SET_IMGS:
+            return {
+                ...state,
+                categories: {
+                    ...state.categories,
+                    imgs: {
+                        ...state.categories.imgs,
+                        list: [ ...payload ]
+                    }
                 }
             };
         default: return state;
