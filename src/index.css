@@ -20,3 +20,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.invalid {
+  border-color: #E84362 !important;
+  transition: all 1s;
+}
+
+.invalid input {
+  border-color: #E84362;
+  transition: all 1s;
+}
+
+.error_sect {
+  opacity: 1 !important;
+  animation: shake 0.2s 2 linear;
+  margin-top: 9px;
+  font-size: 0.69vw;
+  font-weight: 600;
+  color: #E84362;
+  text-align: left;
+  transition: all 1s;
+}

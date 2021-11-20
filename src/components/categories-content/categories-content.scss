@@ -34,7 +34,7 @@
       max-height: 350px;
     }
 
-    div {
+    .name-btn {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -58,6 +58,18 @@
           font-size: 12px;
         }
       }
+    }
+  }
+
+  .image-skelet {
+    width: 370.25px;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      width: inherit;
+      height: inherit;
     }
   }
 }

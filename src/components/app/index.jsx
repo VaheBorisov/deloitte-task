@@ -47,6 +47,10 @@ const App = () => {
 
     };
 
+    const onSubmit = (formData) => {
+        console.log(formData);
+    };
+
     return (
       <Layout>
         <Header collapsed={collapsed} onCollapse={onCollapse} onSearch={onSearch} url={url} title={title} loading={isLoading} openEmailModal={openEmailModal} />
@@ -54,7 +58,7 @@ const App = () => {
           <Sidebar collapsed={collapsed} onCollapse={onCollapse} categories={categories} onSelect={onSelect} entry={entry} loading={isLoading} />
           <Content>
             <CategoriesContent />
-            <ContactInformationModal visible={modalVisible} onCancel={onCancel} />
+            <ContactInformationModal visible={modalVisible} onCancel={onCancel} onSubmit={onSubmit} />
           </Content>
         </Layout>
       </Layout>

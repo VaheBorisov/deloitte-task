@@ -33,10 +33,10 @@ const CategoriesContent = ({  }) => {
                                         <Col key={index} className="gutterRow" span={6}>
                                           {
                                              loadingImgs
-                                                 ? <Skeleton.Image active style={{width: '100%', height: '100%'}} />
+                                                 ? <Skeleton.Image active className="image-skelet" />
                                                      : <img src={imgs.find(img => img.id === elem.id).url} alt="thumb" />
                                           }
-                                          <div>
+                                          <div className="name-btn">
                                             <span>{elem.name}</span>
                                             <Button type="primary">Add</Button>
                                           </div>
