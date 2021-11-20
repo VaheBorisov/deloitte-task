@@ -18,6 +18,10 @@ const initialState = {
           list: [],
           isLoading: false
         },
+        searchedContent: {
+            list: [],
+            isLoading: false
+        },
         isLoading: false
     }
 };
@@ -126,6 +130,28 @@ const DeloitteReducer = (state = initialState, { type, payload }) => {
                     ...state.categories,
                     imgs: {
                         ...state.categories.imgs,
+                        list: [ ...payload ]
+                    }
+                }
+            };
+        case ActionTypes.SEARCH_LOADING:
+            return {
+                ...state,
+                categories: {
+                    ...state.categories,
+                    searchedContent: {
+                        ...state.categories.searchedContent,
+                        isLoading: payload
+                    }
+                }
+            };
+        case ActionTypes.SET_SEARCHED_CONTENT:
+            return {
+                ...state,
+                categories: {
+                    ...state.categories,
+                    searchedContent: {
+                        ...state.categories.searchedContent,
                         list: [ ...payload ]
                     }
                 }

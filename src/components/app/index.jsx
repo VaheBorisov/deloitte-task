@@ -43,8 +43,13 @@ const App = () => {
       dispatch(DeloitteActions.onSelectCategory(key));
     };
 
-    const onSearch = () => {
+    const onSearch = (value) => {
+        dispatch(DeloitteActions.onSelectCategory(''));
+        dispatch(DeloitteActions.searchContent(value));
+    };
 
+    const onChangeSearchValue = ({ target: { value } }) => {
+        value === '' && dispatch(DeloitteActions.getAppCategories()) && dispatch(DeloitteActions.getCategoriesContent());
     };
 
     const onSubmit = (formData) => {
@@ -53,7 +58,7 @@ const App = () => {
 
     return (
       <Layout>
-        <Header collapsed={collapsed} onCollapse={onCollapse} onSearch={onSearch} url={url} title={title} loading={isLoading} openEmailModal={openEmailModal} />
+        <Header collapsed={collapsed} onCollapse={onCollapse} onSearch={onSearch} onChangeSearchValue={onChangeSearchValue} url={url} title={title} loading={isLoading} openEmailModal={openEmailModal} />
         <Layout>
           <Sidebar collapsed={collapsed} onCollapse={onCollapse} categories={categories} onSelect={onSelect} entry={entry} loading={isLoading} />
           <Content>

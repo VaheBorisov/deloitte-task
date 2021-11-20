@@ -21,6 +21,7 @@ const getAppCategories = () => async (dispatch) => {
       const response = await fetch('https://app.highattendance.com/content-app-cats/jVV3Q?appId=2731&eventId=2570');
       const { header_logo, title, cats } = await response.json();
 
+      dispatch(setSearchedData([]));
       dispatch(setCompLogo(header_logo));
       dispatch(setAppTitle(title));
       dispatch(setCategories(cats));
@@ -81,6 +82,33 @@ const getContentImgs = () => async (dispatch) => {
     }
 };
 
+const searchContent = (value) => async (dispatch, getState) => {
+    try {
+        dispatch(searchLoading(true));
+        const { deloitte: { categories: { content: { list } } } } = getState();
+
+        let searchedContent = [];
+        for (let i = 0; i <= list.length - 1; i++) {
+            searchedContent = [...searchedContent, ...list[i].contentInf.filter(({ name }) => name.toLowerCase().includes(value.toLowerCase()))];
+        }
+
+        dispatch(setSearchedData(searchedContent));
+
+    } catch (e) {
+        notification.error({ message: e.message });
+    } finally {
+        dispatch(searchLoading(false));
+    }
+};
+
+
+const setSearchedData = (content) => {
+    return {
+      type: ActionTypes.SET_SEARCHED_CONTENT,
+      payload: [ ...content ]
+    };
+};
+
 const setImgs = (imgs) => {
     return {
         type: ActionTypes.SET_IMGS,
@@ -104,6 +132,7 @@ const setContent = (content) => {
 
 const onSelectCategory = (key) => async (dispatch) => {
     try {
+        dispatch(setSearchedData([]));
         dispatch(setEntryCategory(key));
         dispatch(getEntryContent());
     } catch (e) {
@@ -139,6 +168,13 @@ const setCompLogo = (URL) => {
   };
 };
 
+const searchLoading = (boolean) => {
+    return {
+        type: ActionTypes.SEARCH_LOADING,
+        payload: boolean
+    };
+};
+
 const loadingImgs = (boolean) => {
     return {
         type: ActionTypes.IMGS_LOADING,
@@ -172,4 +208,5 @@ export const DeloitteActions = {
   onSelectCategory,
   getCategoriesContent,
   getEntryContent,
+  searchContent,
 };
